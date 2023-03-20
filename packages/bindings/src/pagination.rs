@@ -3,11 +3,11 @@ use cosmwasm_schema::cw_serde;
 #[cw_serde]
 #[derive(Default)]
 pub struct PageRequest {
-    key: Option<String>,
-    offset: Option<u64>,
-    limit: Option<u64>,
-    count_total: Option<bool>,
-    reverse: Option<bool>,
+    pub key: Option<String>,
+    pub offset: Option<u64>,
+    pub limit: Option<u64>,
+    pub count_total: Option<bool>,
+    pub reverse: Option<bool>,
 }
 
 impl PageRequest {
