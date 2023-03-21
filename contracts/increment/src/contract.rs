@@ -51,9 +51,10 @@ pub fn execute(
     match msg {
         ExecuteMsg::Increment {} => increment(deps),
         ExecuteMsg::Reset { count } => reset(deps, info, count),
-        ExecuteMsg::UpdateRewardsAddress { rewards_address } => {
-            update_rewards_address(rewards_address.unwrap_or(env.contract.address))
-        }
+        ExecuteMsg::UpdateRewardsAddress { rewards_address } => update_rewards_address(
+            env.contract.address.clone(),
+            rewards_address.unwrap_or(env.contract.address),
+        ),
         ExecuteMsg::SetFlatFee { amount } => {
             set_flat_fee(deps.as_ref(), env.contract.address, amount)
         }
@@ -86,8 +87,11 @@ pub fn reset(
     Ok(Response::new().add_attribute("method", "reset"))
 }
 
-pub fn update_rewards_address(rewards_address: Addr) -> ArchwayResult<ContractError> {
-    let msg = ArchwayMsg::update_rewards_address(rewards_address);
+pub fn update_rewards_address(
+    contract_address: Addr,
+    rewards_address: Addr,
+) -> ArchwayResult<ContractError> {
+    let msg = ArchwayMsg::update_rewards_address(contract_address, rewards_address);
 
     let res = Response::new()
         .add_message(msg)
